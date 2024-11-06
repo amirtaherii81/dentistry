@@ -1,0 +1,60 @@
+{% extends 'user_panel_base.html' %}
+
+{% block title %}بیماران{% endblock  %}
+
+{% block content %}
+
+{% if patients %}
+    <div>
+        <div style="padding: 10px; margin: 10px;">
+
+            <form action="" class="drop-search__form">
+                <input id="q_patient" type="text" placeholder="کدملی را جستجو کنید">
+                <button class="fa fa-search" onclick="searchPatient()"></button>
+            </form>
+            {% comment %} <input type="text" id="results">  {% endcomment %}
+            
+        <div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>نام</th>
+                    <th>نام خانوادگی</th>
+                    <th>شماره موبایل</th>
+                    <th>بیماری ها</th>
+                    <th>کد ملی</th>
+                    <th>تاریخ مراجعه</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="patient_table">
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.name }}</td>
+                    <td>{{ patient.family }}</td>
+                    <td>{{ patient.phone_number }}</td>
+                    <td>
+                        {% for disease in patient.diseases.all %}
+                            <span>{{ disease }}</span>, 
+                        {% endfor %}
+                    </td>
+                    <td>{{ patient.patient_national_id }}</td>
+                    <td>{{ patient.visit_date }}</td>
+                    <td>
+                        <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+
+    </div>
+    {% else %}
+    بیماری وجود ندارد
+    {% endif %}
+
+
+
+{% endblock content %}

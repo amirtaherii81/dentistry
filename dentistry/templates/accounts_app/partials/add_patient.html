@@ -1,0 +1,50 @@
+{% extends 'user_panel_base.html' %}
+
+{% block title %}درج بیمار{% endblock title %}
+
+{% block content %}
+
+<table class="table form-row">
+    <form class="form-group" action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.name }}
+        </div>            
+        
+        <div class="form-group">
+            {{ form.family }}
+        </div>   
+
+        <div class="form-group">
+            {{ form.phone_number }}
+        </div>            
+        <div class="form-group">
+            {{ form.patient_national_id }}
+        </div>            
+        
+        <div class="form-group">
+            فعال بودن {{ form.is_active }}
+        </div>            
+
+        <div class="form-group">
+            <label>بیماری ها</label><br>
+            <input type="text" id="searchDisease" class="form-control mb-3" placeholder="سرچ بیماری ..." >
+            <div id="diseaseList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ced4da; border-radius: .25rem; padding: .5rem;">
+                {% for disease in form.diseases %}
+                    <div class="form-check disease-item">
+                        <input class="form-check-input" type="checkbox" name="diseases[]" id="disease_{{ disease.id }}" value="{{ disease.id }}">
+                        <label class="form-check-label" for="disease_{{ disease.id }}">
+                            {{ disease }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-4">ذخیره</button>
+    </form>
+</table>
+
+
+
+{% endblock content %}
