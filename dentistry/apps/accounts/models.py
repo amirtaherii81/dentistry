@@ -1,6 +1,7 @@
 from django.db import models                            #(کلاسی برای سطح دسترسی ها)
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, UserManager, UserManager
 from django.utils import timezone
+from khayyam import JalaliDatetime
 from apps.diseases.models import Disease
 # import utils
 # Create your models here.
@@ -73,12 +74,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 #----------------------------------------------------------------
 
 class Visit(models.Model):  
-    visit_date = models.DateTimeField(auto_now_add=True)  
+    visit_date = models.DateTimeField(default=JalaliDatetime.now())  
 
     def __str__(self):  
         return f"Visit for {self.patient} on {self.visit_date}" 
 
-
+# from django.utils import timezone
 class Patient(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True, verbose_name='نام')
     family = models.CharField(max_length=50, null=True, blank=True, verbose_name='نام خانوادگی')
@@ -87,6 +88,7 @@ class Patient(models.Model):
     diseases = models.ManyToManyField(Disease, related_name='patients', verbose_name='بیماری ها')  # نوع بیماری  
     patient_national_id = models.CharField(max_length=10, null=True, blank=True, verbose_name='کد ملی')
     visit_date = models.ForeignKey(Visit, on_delete=models.CASCADE, null=True, blank=True, verbose_name='تاریخ مراجعه')  
+    # register_date = models.DateTimeField(default=JalaliDatetime.now(), null=True, blank=True, verbose_name='تاریخ مراجعه')  
     medical_history = models.TextField(blank=True, null=True, verbose_name='سوابق بیماری')  # سوابق بیماری  
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     

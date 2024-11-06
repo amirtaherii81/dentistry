@@ -1,4 +1,6 @@
 from django.db import models
+from khayyam import JalaliDatetime
+from django.utils import timezone
 # Create your models here.
 
 class Disease(models.Model):
@@ -6,8 +8,13 @@ class Disease(models.Model):
     description = models.TextField(verbose_name='شرح بیماری')
     is_priority = models.BooleanField(default=False, verbose_name='اولویت بودن / نبودن')
     is_active = models.BooleanField(default=True, verbose_name='فعال بودن / نبودن')
-    publication_date = models.DateTimeField(auto_now=True, verbose_name='تاریخ انتشار') 
+    publication_date = models.DateTimeField(default=timezone.now, verbose_name='تاریخ انتشار') 
 
+    def get_shamsi_date(self):
+        jalali_datetime = JalaliDatetime(self.publication_date)
+        return jalali_datetime.todate()
+        
+        
     def __str__(self):
         return self.title
     
