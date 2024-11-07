@@ -40,7 +40,10 @@
                         {% endfor %}
                     </td>
                     <td>{{ patient.patient_national_id }}</td>
-                    <td>{{ patient.visit_date }}</td>
+                
+                    <td>
+                        {{ patient.visit_date }}
+                    </td>
                     <td>
                         <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
                     </td>

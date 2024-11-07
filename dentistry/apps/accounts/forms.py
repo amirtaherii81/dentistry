@@ -108,14 +108,14 @@ class EditeProfileForm(forms.Form):
 class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
-        fields = ['name', 'family', 'phone_number','patient_national_id', 'is_active', 'diseases', 'dentist']
+        fields = ['name', 'family', 'phone_number','patient_national_id', 'is_active', 'diseases']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام را وارد کنید'}),
             'family': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'نام خانوادگی را وارد کنید'}),
             'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'موبایل را وارد کنید'}),
             'patient_national_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'کد ملی را وارد کنید'}),
             # 'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),  
-            # 'diseases': forms.CheckboxSelectMultiple(attrs={'class': 'form-control'}), 
+            # 'diseases': forms.CheckboxInput(attrs={'class': 'form-check-input'}), 
         }
 
 

@@ -72,14 +72,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.is_admin
 
 #----------------------------------------------------------------
-
 class Visit(models.Model):  
-    visit_date = models.DateTimeField(default=JalaliDatetime.now())  
+    visit_date = models.DateTimeField()
 
     def __str__(self):  
-        return f"Visit for {self.patient} on {self.visit_date}" 
+        return f"{self.visit_date}," 
 
-# from django.utils import timezone
 class Patient(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True, verbose_name='نام')
     family = models.CharField(max_length=50, null=True, blank=True, verbose_name='نام خانوادگی')
@@ -88,10 +86,12 @@ class Patient(models.Model):
     diseases = models.ManyToManyField(Disease, related_name='patients', verbose_name='بیماری ها')  # نوع بیماری  
     patient_national_id = models.CharField(max_length=10, null=True, blank=True, verbose_name='کد ملی')
     visit_date = models.ForeignKey(Visit, on_delete=models.CASCADE, null=True, blank=True, verbose_name='تاریخ مراجعه')  
-    # register_date = models.DateTimeField(default=JalaliDatetime.now(), null=True, blank=True, verbose_name='تاریخ مراجعه')  
     medical_history = models.TextField(blank=True, null=True, verbose_name='سوابق بیماری')  # سوابق بیماری  
     is_active = models.BooleanField(default=True, verbose_name='فعال')
     
+    def get_shamsi_date(self):
+        jalali_datetime = JalaliDatetime(self.visit_date)
+        return str(jalali_datetime.todate())
     
     def __str__(self):
         return f"{self.name} {self.family}"

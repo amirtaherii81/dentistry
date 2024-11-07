@@ -4,10 +4,12 @@ from .forms import (
     RegisterUserForm, LoginUserForm, PatientForm, EditeProfileForm,
     VerifyRegisterForm, RememberPasswordForm
     )
-from .models import CustomUser, Patient
+from .models import CustomUser, Patient, Visit
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from apps.diseases.models import Disease
+from django.utils import timezone
+# from apps.diseases.forms import DiseaseForm
 import utils
 
 
@@ -212,28 +214,33 @@ class CreatePatient(View):
     template_name = 'accounts_app/partials/add_patient.html'
     def get(self, request):
         form = PatientForm()
-        # diseases = Disease.objects.all().order_by('-is_priority')
         return render(request, self.template_name, {'form': form})
     
     def post(self, request):
-        user = CustomUser.objects.get(pk=request.user.id)
+        # user = CustomUser.objects.get(pk=request.user.id)
         form = PatientForm(request.POST)
         if form.is_valid():
-            # data = form.cleaned_data
-            patient = form.save(commit=False)  
-            patient.dentist = request.user
+            visit = Visit.objects.create(visit_date=timezone.now())
+            visit.save()
+            data = form.cleaned_data
+            diseases_ids = list(data['diseases'])
+            print(diseases_ids)
+            patient = Patient.objects.create(
+                name =  data['name'],
+                family = data['family'],
+                phone_number = data['phone_number'],
+                dentist = request.user,
+                patient_national_id = data['patient_national_id'],
+                is_active = data['is_active'],
+                visit_date = visit,
+                )
+            for disease in diseases_ids:
+                patient.diseases.add(disease)
             patient.save()
 
-            # اضافه کردن بیماری‌ها  
-            # diseases = request.POST.getlist('diseases')  # دریافت همه بیماری‌های انتخاب شده  
-            # for disease_id in diseases:  
-            #     disease = get_object_or_404(Disease, id=disease_id) 
-            #     patient.diseases.add(disease)  # اضافه کردن بیماری به بیمار 
             messages.success(request, 'اطلاعات بیمار با موفقیت ثبت شد', 'success')
             return redirect('accounts:add_patients')
         else:
-            print('*' * 50)
-            print(form.errors)
             messages.error(request, 'اطلاعات وارد شده نامعتبراند', 'danger')
             return render(request, self.template_name, {'form': form})
 
