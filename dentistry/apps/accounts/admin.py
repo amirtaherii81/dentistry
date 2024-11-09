@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import UserChangeForm, UserCreationForm
-from .models import CustomUser, Patient
+from .models import CustomUser, Patient, Visit
 # Register your models here.
 
 @admin.register(CustomUser)
@@ -35,3 +35,5 @@ class CustomUserAdmin(UserAdmin):
 @admin.register(Patient)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['name', 'family', 'phone_number']
+
+    admin.site.register(Visit)

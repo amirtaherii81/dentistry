@@ -1,4 +1,6 @@
 {% extends 'user_panel_base.html' %}
+{% load poll_extras %}
+
 
 {% block title %}بیماران{% endblock  %}
 
@@ -38,11 +40,16 @@
                         {% for disease in patient.diseases.all %}
                             <span>{{ disease }}</span>, 
                         {% endfor %}
+                        <a href="{% url 'diseases:part_blog' id=patient.id %}" ><span style="font-size: 14px">توضیحات</span></a>
                     </td>
                     <td>{{ patient.patient_national_id }}</td>
                 
                     <td>
-                        {{ patient.visit_date }}
+{#                        {% for visit in patient.visits.all %}#}
+{#                            {{ visit | show_jalali_datetime }}#}
+{#                            <br>#}
+{#                        {% endfor %}#}
+
                     </td>
                     <td>
                         <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
@@ -55,7 +62,9 @@
 
     </div>
     {% else %}
-    بیماری وجود ندارد
+    <div>
+        بیماری وجود ندارد
+    </div>
     {% endif %}
 
 

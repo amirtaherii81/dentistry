@@ -22,7 +22,20 @@
         <div class="form-group">
             فعال بودن {{ form.is_active }}
         </div>            
+
+
         <div class="form-group">
+            <label>بیماری ها</label><br>
+            <input type="text" id="searchDisease" class="form-control mb-3" placeholder="سرچ بیماری ..." >
+            <div id="diseaseList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ced4da; border-radius: .25rem; padding: .5rem;">
+                {{form.diseases}}
+
+            </div>
+        </div>
+
+
+
+        {% comment %} <div class="form-group">
             <label>بیماری ها</label><br>
             <input type="text" id="searchDisease" class="form-control mb-3" placeholder="سرچ بیماری ..." onkeyup="filterDiseases()">
             <div id="diseaseList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ced4da; border-radius: .25rem; padding: .5rem;">
@@ -37,7 +50,7 @@
                     </div>
                 {% endfor %}
             </div>
-        </div>
+        </div> {% endcomment %}
         <button type="submit" class="btn btn-primary mt-4">ذخیره</button>
     </form>
 </table>
