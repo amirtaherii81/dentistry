@@ -45,10 +45,10 @@
                     <td>{{ patient.patient_national_id }}</td>
                 
                     <td>
-{#                        {% for visit in patient.visits.all %}#}
-{#                            {{ visit | show_jalali_datetime }}#}
-{#                            <br>#}
-{#                        {% endfor %}#}
+                        {% for visit in patient.visits.all %}
+                            {{ visit.get_shamsi_date_visit }}
+                            <br>
+                        {% endfor %}
 
                     </td>
                     <td>

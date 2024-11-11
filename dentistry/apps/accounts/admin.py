@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import UserChangeForm, UserCreationForm
-from .models import CustomUser, Patient, Visit
+from .models import CustomUser, Patient, Visit, ContactUs
+from jalali_date import datetime2jalali, date2jalali
 # Register your models here.
 
 @admin.register(CustomUser)
@@ -36,4 +37,8 @@ class CustomUserAdmin(UserAdmin):
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ['name', 'family', 'phone_number']
 
-    admin.site.register(Visit)
+@admin.register(ContactUs)
+class ContactUsAdmin(admin.ModelAdmin):
+    list_display = ['fullname', 'mobile_number', 'subject', 'get_shamsi_date_contact']
+    list_filter = ('mobile_number', 'mobile_number')
+    ordering = ('register_date',)

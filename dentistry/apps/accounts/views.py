@@ -3,9 +3,10 @@ from django.views import View
 from .forms import (
     RegisterUserForm, LoginUserForm,
     PatientForm, EditeProfileForm,
-    VerifyRegisterForm, RememberPasswordForm
+    VerifyRegisterForm, RememberPasswordForm,
+    ContactUsForm, ChangePasswordForm
     )
-from .models import CustomUser, Patient, Visit
+from .models import CustomUser, Patient, Visit, ContactUs
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from apps.diseases.models import Disease
@@ -69,7 +70,7 @@ class VerifyUserView(View):
                     return redirect('accounts:change_password')
             else:
                 messages.error(request, 'کد دریافتی اشتباه می باشد', 'danger')
-        messages.error(request, 'اطلاعات وارد شده نامعتبر می باشند', 'danger')
+        # messages.error(request, 'اطلاعات وارد شده نامعتبر می باشند', 'danger')
         return render(request, self.template_name, {'form': form})
 
 
@@ -109,7 +110,7 @@ class RememberPasswordView(View):
         if form.is_valid():
             data = form.cleaned_data
             user=CustomUser.objects.get(mobile_number=data['mobile_number'])
-            active_code=utils.create_random_code(5)
+            active_code=utils.create_active_code(5)
             user.active_code=active_code
             user.save()
             utils.send_sms(data['mobile_number'], f'کد تایید حساب کاربری شما {active_code} می باشد')
@@ -137,7 +138,7 @@ class ChangePasswordView(View):
             user_session=request.session['user_session']
             user=CustomUser.objects.get(mobile_number=user_session['mobile_number'])
             user.set_password(data['password1'])
-            user.active_code=utils.create_random_code(5)
+            user.active_code=utils.create_active_code(5)
             user.save()
             messages.success(request, 'رمز عبور شما با موفقعیت تغییر کرد', 'success')
             return redirect('accounts:login')
@@ -231,7 +232,6 @@ class CreatePatient(View):
             for disease in diseases_ids:
                 patient.diseases.add(disease)
             patient.save()
-
             messages.success(request, 'اطلاعات بیمار با موفقیت ثبت شد', 'success')
             return redirect('accounts:add_patients')
         else:
@@ -292,6 +292,23 @@ class UpdatePatient(View):
 
                
 class ContactUsView(View):
+    template_name = 'accounts_app/contact_us.html'
     def get(self, request):
-        # admin = CustomUser.objects.get(is_superuser=True, is_admin=True, is_active=True)
-        return render(request, 'accounts_app/contact_us.html')
+        form = ContactUsForm()
+        return render(request, self.template_name, {'form':form})
+
+    def post(self, request, *args, **kwargs):
+        form = ContactUsForm(request.POST)
+        if not form.is_valid():
+            messages.error(request, 'اطلاعات وارد شده نامعبراند', 'danger')
+            return render(request, self.template_name, {'form': form})
+        data = form.cleaned_data
+        ContactUs.objects.create(
+            fullname=data['fullname'],
+            mobile_number=data['mobile_number'],
+            subject=data['subject'],
+            text=data['text'],
+        )
+        messages.success(request, 'پیام شما با موفقیت ارسال شد', 'success')    
+        return redirect('main:index')
+    

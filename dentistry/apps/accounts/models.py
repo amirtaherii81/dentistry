@@ -2,7 +2,7 @@ from django.db import models                            #(کلاسی برای س
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, UserManager, UserManager
 from django.utils import timezone
 from apps.diseases.models import Disease
-# import utils
+from jalali_date import datetime2jalali
 # Create your models here.
 
 # نوشتن کلاسی برای مدیریت کاربران :
@@ -43,7 +43,6 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-#----------------------------------------------------------------
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     mobile_number = models.CharField(max_length=11, unique=True, verbose_name='شماره موبایل')
     email = models.EmailField(max_length=200, blank=True, verbose_name='ایمیل')
@@ -69,8 +68,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self): # تعیین میکند که اگر کاربری این مقدارش ترو باشد بتواند به پنل دسترسی داشته باشد
         return self.is_admin
+    
+    class Meta:
+        verbose_name = 'کاربر'
+        verbose_name_plural = 'کاربران'
 
-#----------------------------------------------------------------
 class Patient(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True, verbose_name='نام')
     family = models.CharField(max_length=50, null=True, blank=True, verbose_name='نام خانوادگی')
@@ -88,12 +90,26 @@ class Patient(models.Model):
         verbose_name = 'بیمار'
         verbose_name_plural = 'بیمار ها' 
         
-
 class Visit(models.Model):  
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='visits')
     visit_date = models.DateTimeField(auto_now=True, verbose_name='تاریخ مراجعه')
 
+    def get_shamsi_date_visit(self):
+        return datetime2jalali(self.visit_date).strftime('%H:%M:%S _ %y/%m/%d')
+    
     def __str__(self):
         return self.visit_date
     
- 
+class ContactUs(models.Model):
+    fullname = models.CharField(max_length=100, verbose_name='نام و نام خانوادگی')
+    mobile_number = models.CharField(max_length=50, verbose_name='شماره موبایل')
+    subject = models.CharField(max_length=50, null=True, blank=True, verbose_name='موضوع')
+    text = models.TextField(verbose_name='پیام')
+    register_date = models.DateTimeField(auto_now=True, verbose_name='تاریخ')
+
+    def get_shamsi_date_contact(self):
+        return datetime2jalali(self.register_date).strftime('%H:%M:%S _ %y/%m/%d')
+
+    class Meta:
+        verbose_name = 'پیام'
+        verbose_name_plural = 'پیام ها'

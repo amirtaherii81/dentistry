@@ -4,7 +4,6 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from apps.accounts.models import CustomUser, Patient
 from apps.diseases.models import Disease
 
-#----------------------------------------------------------------
 class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label="رمز", widget=forms.PasswordInput)
     password2 = forms.CharField(label="تکرار رمز", widget=forms.PasswordInput)
@@ -26,14 +25,12 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         return user
     
-#----------------------------------------------------------------
 class UserChangeForm(forms.ModelForm):  # وقتی میخواهیم کاربری را تغییر دهیم
     password = ReadOnlyPasswordHashField(help_text="<a href='../password'>تغییر رمز عبور </a>")
     class Meta:
         model = CustomUser
         fields = ['mobile_number', 'email', 'name', 'family', 'gender', 'is_active', 'is_admin']
         
-#----------------------------------------------------------------
 # ورود کاربر
 class LoginUserForm(forms.Form):
     mobile_number = forms.CharField(label='شماره موبایل',
@@ -46,7 +43,6 @@ class LoginUserForm(forms.Form):
                                 )
 
 
-#----------------------------------------------------------------
 # ثبت نام کاربر
 class RegisterUserForm(forms.ModelForm):    # ایجاد فرمی برای ثبت نام کاربرای در سایت
     password1 = forms.CharField(label="رمز عبور", widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'رمز عبور را وارد کنید'}))
@@ -68,7 +64,6 @@ class RegisterUserForm(forms.ModelForm):    # ایجاد فرمی برای ثب�
             raise ValidationError('رمز عبور و تکرار آن باهم مغایرت دارند')
         return pass2
     
-#----------------------------------------------------------------
 # احراز
 class VerifyRegisterForm(forms.Form):
     active_code = forms.CharField(label='',
@@ -76,7 +71,6 @@ class VerifyRegisterForm(forms.Form):
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'کد دریافتی را وارد کنید'})
                                 )
         
-#----------------------------------------------------------------
 # ویرایش پروفایل
 class EditeProfileForm(forms.Form):
     mobile_number = forms.CharField(label='شماره موبایل',
@@ -103,7 +97,6 @@ class EditeProfileForm(forms.Form):
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'تخصص را وارد کنید'})
                                 )
     
-#----------------------------------------------------------------
 # نمایش و اضافه کردن بیماران
 class PatientForm(forms.ModelForm):
     class Meta:
@@ -119,7 +112,6 @@ class PatientForm(forms.ModelForm):
         }
 
 
-#----------------------------------------------------------------
 # تایید شماره موبایل 
 class RememberPasswordForm(forms.Form):
     mobile_number = forms.CharField(label='شماره موبایل',
@@ -127,7 +119,6 @@ class RememberPasswordForm(forms.Form):
                                     widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'شماره موبایل را وارد کنید'}),
                                     )
     
-#----------------------------------------------------------------
 # تغییر رمز
 class ChangePasswordForm(forms.Form):
     password1 = forms.CharField(label='رمز عبور',
@@ -145,3 +136,21 @@ class ChangePasswordForm(forms.Form):
             raise ValidationError('رمز عبور و تکرار آن باهم مغایرت دارند')
         return pass2
     
+class ContactUsForm(forms.Form):
+    fullname = forms.CharField(label='نام و نام خانوادگی' ,
+                        max_length=100,
+                        widget=forms.TextInput(attrs={"class":"form-control", "placeholder":"نام و نام خانوادگی خود را وارد کنید"})
+                        )
+    mobile_number = forms.CharField(label='شماره موبایل',
+                        max_length=20,
+                        widget=forms.TextInput(attrs={"class":"form-control", "placeholder":" شماره موبایل خود را وارد کنید"})
+                        )
+    subject = forms.CharField(label='موضوع',
+                        max_length=50,
+                        widget=forms.TextInput(attrs={"class":"form-control", "placeholder":"موضوع خود را وارد کنید"}),
+                        required=False
+                        )
+    text = forms.CharField(label='پیام',
+                        max_length=100,
+                        widget=forms.Textarea(attrs={"class":"form-control", "placeholder":"پیام خود را وارد کنید", 'rows':4}),
+                        )
