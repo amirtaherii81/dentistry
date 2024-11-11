@@ -293,5 +293,5 @@ class UpdatePatient(View):
                
 class ContactUsView(View):
     def get(self, request):
-        admin = CustomUser.objects.get(is_superuser=True, is_admin=True, Is_active=True)
-        return render(request, 'accounts_app/contact_us.html', {'admin'})
+        # admin = CustomUser.objects.get(is_superuser=True, is_admin=True, is_active=True)
+        return render(request, 'accounts_app/contact_us.html')

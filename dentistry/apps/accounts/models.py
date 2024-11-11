@@ -91,7 +91,7 @@ class Patient(models.Model):
 
 class Visit(models.Model):  
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='visits')
-    visit_date = models.DateTimeField(default=timezone.now(), verbose_name='تاریخ مراجعه')
+    visit_date = models.DateTimeField(auto_now=True, verbose_name='تاریخ مراجعه')
 
     def __str__(self):
         return self.visit_date
