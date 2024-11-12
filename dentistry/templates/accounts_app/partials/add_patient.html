@@ -1,4 +1,5 @@
 {% extends 'user_panel_base.html' %}
+{% load render_partial %}
 
 {% block title %}درج بیمار{% endblock title %}
 
@@ -24,38 +25,36 @@
         <div class="form-group">
             فعال بودن {{ form.is_active }}
         </div>            
-        {% comment %} <div class="form-group">
-            فعال بودن {{ form.diseases }}
-        </div>             {% endcomment %}
-        
         
         <div class="form-group">
             <label>بیماری ها</label><br>
-            <input type="text" id="searchDisease" class="form-control mb-3" placeholder="سرچ بیماری ..." >
-            <div id="diseaseList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ced4da; border-radius: .25rem; padding: .5rem;">
-                {{form.diseases}}
+                
+            <fieldset class="form-inline" action="">  
+                <div class="input-group">  
+                    <input type="search" class="form-control input-small" placeholder="جستجو..." aria-label="Search" name="query" id="q_disease">  
+                    <div class="input-group-append">  
+                        <button class="btn btn-outline-success" type="button" onclick="searchDisease()">جستجو</button>  
+                    </div>  
+                </div>  
+            </fieldset>             
 
+
+
+            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ced4da; border-radius: .25rem; padding: .5rem;">
+                <div id="disease_dev">
+                    {% for disease in form.diseases %}
+                    <div>
+                        {{disease}}
+                    </div>
+                    {% endfor %}
+                </div>
+                
             </div>
         </div>
-        {% comment %} <div class="form-group">
-            <label>بیماری ها</label><br>
-            <input type="text" id="searchDisease" class="form-control mb-3" placeholder="سرچ بیماری ..." >
-            <div id="diseaseList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ced4da; border-radius: .25rem; padding: .5rem;">
-                {% for disease in form.diseases %}
-                    <div class="form-check disease-item">
-                        <input class="form-check-input" type="checkbox" name="diseases[]" id="disease_{{ disease.id }}" value="{{ disease.id }}">
-                        <label class="form-check-label" for="disease_{{ disease.id }}">
-                            {{ disease }}
-                        </label>
-                    </div>
-                {% endfor %}
-            </div>
-        </div> {% endcomment %}
 
         <button type="submit" class="btn btn-primary mt-4">ذخیره</button>
     </form>
 </table>
-
 
 
 {% endblock content %}

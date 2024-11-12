@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.polls.apps.PollsConfig',
     # external app,
     'jalali_date',
+    'django_render_partial',    
 ]
 
 MIDDLEWARE = [

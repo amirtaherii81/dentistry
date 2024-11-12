@@ -173,7 +173,13 @@ class Patients(View):
         patients = Patient.objects.filter(is_active=True, dentist=request.user.id)
         return render(request, self.template_name, {'patients': patients})
 
-         
+class TablePatientsView(View):
+    template_name = 'accounts_app/partials/table_patients.html'
+    def get(self, request):
+        patients = Patient.objects.filter(is_active=True, dentist=request.user.id)
+        return render(request, self.template_name, {'patients': patients})
+
+
 class EditProfileView(View):
     template_name = 'accounts_app/partials/edit_profile.html'
     def get(self, request):
@@ -234,9 +240,9 @@ class CreatePatient(View):
             patient.save()
             messages.success(request, 'اطلاعات بیمار با موفقیت ثبت شد', 'success')
             return redirect('accounts:add_patients')
-        else:
-            messages.error(request, 'اطلاعات وارد شده نامعتبراند', 'danger')
-            return render(request, self.template_name, {'form': form})
+
+        messages.error(request, 'اطلاعات وارد شده نامعتبراند', 'danger')
+        return render(request, self.template_name, {'form': form})
 
         
 class UpdatePatient(View):

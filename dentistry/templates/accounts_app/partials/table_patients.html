@@ -1,0 +1,57 @@
+
+{% comment %} {% if patients %}
+    {% for patient in patients %}
+    <tr>
+        <td>{{ patient.name }}</td>
+        <td>{{ patient.family }}</td>
+        <td>{{ patient.phone_number }}</td>
+        <td>
+            {% for disease in patient.diseases.all %}
+                <span>{{ disease }}</span>, 
+            {% endfor %}
+            {% if patient.diseases.all %}
+                <a href="{% url 'diseases:part_blog' id=patient.id %}" ><span style="font-size: 14px">توضیحات</span></a>
+            {% endif %}
+        </td>
+        <td>{{ patient.patient_national_id }}</td>
+
+        <td>
+            {% for visit in patient.visits.all %}
+                {{ visit.get_shamsi_date_visit }}
+                <br>
+            {% endfor %}
+
+        </td>
+        <td>
+            <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
+        </td>
+    </tr>
+{% endfor %}
+{% else %}
+    <tr>
+        <td>{{ patient.name }}</td>
+        <td>{{ patient.family }}</td>
+        <td>{{ patient.phone_number }}</td>
+        <td>
+            {% for disease in patient.diseases.all %}
+                <span>{{ disease }}</span>,<br> 
+            {% endfor %}
+            {% if patient.diseases.all %}
+                
+                <a href="{% url 'diseases:part_blog' id=patient.id %}" ><span style="font-size: 14px">توضیحات</span></a>
+            {% endif %}
+        </td>
+        <td>{{ patient.patient_national_id }}</td>
+
+        <td>
+            {% for visit in patient.visits.all %}
+                {{ visit.get_shamsi_date_visit }}
+                <br>
+            {% endfor %}
+
+        </td>
+        <td>
+            <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
+        </td>
+    </tr>
+{% endif %} {% endcomment %}

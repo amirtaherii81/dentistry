@@ -99,6 +99,12 @@ class EditeProfileForm(forms.Form):
     
 # نمایش و اضافه کردن بیماران
 class PatientForm(forms.ModelForm):
+    diseases = forms.ModelMultipleChoiceField(
+        queryset=Disease.objects.filter(is_active=True).order_by('-is_priority'),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label="بیماری ها"
+        )
     class Meta:
         model = Patient
         fields = ['name', 'family', 'phone_number','patient_national_id', 'is_active', 'diseases']
