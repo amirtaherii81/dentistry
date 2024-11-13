@@ -9,24 +9,28 @@
         {% block title %}پنل کاربری{% endblock title %}
     </title>
     <link rel="icon" type="image/png" href="images/favicon.png">
-	<!-- css -->
-	<link rel="stylesheet" href="{% static 'vendor/bootstrap-4.5.3/css/bootstrap.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css' %} ">
-	<link rel="stylesheet" href="{% static 'css/style.css' %} ">
-	<link rel="stylesheet" href="{% static 'css/custom.css' %} ">
-	<!-- js -->
-	<script src="{% static 'vendor/jquery-3.3.1/jquery.min.js' %} "></script>
-	<script src="{% static 'vendor/bootstrap-4.5.3/js/bootstrap.bundle.min.js' %} "></script>
-	<script src="{% static 'vendor/owl-carousel-2.3.4/owl.carousel.min.js' %} "></script>
-	<script src="{% static 'js/main.js' %} "></script>
-	<script src="{% static 'js/myscript.js' %} "></script>
-	<!-- font - fontawesome -->
-	<link rel="stylesheet" href="{% static 'vendor/fontawesome-5.6.3/css/all.min.css' %} ">
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap-4.5.3/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/style.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %} ">
+    <!-- js -->
+    <script src="{% static 'vendor/jquery-3.3.1/jquery.min.js' %} "></script>
+    <script src="{% static 'vendor/bootstrap-4.5.3/js/bootstrap.bundle.min.js' %} "></script>
+    <script src="{% static 'vendor/owl-carousel-2.3.4/owl.carousel.min.js' %} "></script>
+    <script src="{% static 'js/main.js' %} "></script>
+    <script src="{% static 'js/myscript.js' %} "></script>
+    <!-- font - fontawesome -->
+    <link rel="stylesheet" href="{% static 'vendor/fontawesome-5.6.3/css/all.min.css' %} ">
+
+    {% block link %}
+    {% endblock %}
+
 </head>
 <body>
 
-	{% include "partials/header.html" %}
-	{% include "partials/messages.html" %}
+{% include "partials/header.html" %}
+{% include "partials/messages.html" %}
 <div class="site__body">
     <div class="page-header">
         <div class="page-header__container container">
@@ -37,9 +41,9 @@
                             /
                         </li>
                         <li class="breadcrumb-item"><a href="">داشبورد</a>
-                            
+
                         </li>
-                        
+
                     </ol>
                 </nav>
             </div>
@@ -54,9 +58,12 @@
                     <div class="account-nav flex-grow-1">
                         <h4 class="account-nav__title">ناوبری</h4>
                         <ul>
-                            <li class="account-nav__item account-nav__item--active"><a href="{% url 'accounts:user_panel' %}">داشبورد</a></li>
-                            <li class="account-nav__item"><a href="{% url 'accounts:edite_profile' %}">ویرایش پروفایل</a></li>
-                            <li class="account-nav__item"><a href="{% url 'accounts:add_patients' %}">افزودن بیمار</a></li>
+                            <li class="account-nav__item account-nav__item--active"><a
+                                    href="{% url 'accounts:user_panel' %}">داشبورد</a></li>
+                            <li class="account-nav__item"><a href="{% url 'accounts:edite_profile' %}">ویرایش
+                                پروفایل</a></li>
+                            <li class="account-nav__item"><a href="{% url 'accounts:add_patients' %}">افزودن بیمار</a>
+                            </li>
                             <li class="account-nav__item"><a href="{% url 'accounts:patients' %}">سوابق بیماران</a></li>
                             <li class="account-nav__item"><a href="{% url 'accounts:logout' %}">خروج</a></li>
                         </ul>
