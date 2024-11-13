@@ -85,6 +85,9 @@ class Patient(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.family}"
+
+    def get_diseases(self):
+        return self.diseases.all()
     
     class Meta:
         verbose_name = 'بیمار'

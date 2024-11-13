@@ -8,6 +8,11 @@
 //     });
 // }
 
+$(document).ready(function() {
+    $('.js-select-q_disease').select2();
+});
+
+
 function searchDisease() {  
     var value = $("#q_disease").val(); // خواندن ورودی کاربر  
     $.get('/search/disease/', { value: value })  

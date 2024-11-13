@@ -5,7 +5,7 @@ from .forms import (
     PatientForm, EditeProfileForm,
     VerifyRegisterForm, RememberPasswordForm,
     ContactUsForm, ChangePasswordForm
-    )
+)
 from .models import CustomUser, Patient, Visit, ContactUs
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -24,34 +24,35 @@ class RegisterUserView(View):
         form = RegisterUserForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            
+
             active_code = utils.create_active_code(5)
             CustomUser.objects.create_user(
-            name = data['name'],
-            family = data['family'],
-            mobile_number = data['mobile_number'],
-            specialty = data['specialty'],
-            password=data['password2'],
-            active_code=active_code
+                name=data['name'],
+                family=data['family'],
+                mobile_number=data['mobile_number'],
+                specialty=data['specialty'],
+                password=data['password2'],
+                active_code=active_code
             )
             utils.send_sms(data['mobile_number'], f'کد فعال سازی حساب کاربری شما {active_code} می باشد')
             request.session['user_session'] = {
                 'active_code': str(active_code),
                 'mobile_number': str(data['mobile_number']),
             }
-            messages.success(request,'اطلاعات شما با موفقیت ثبت شد. کد دریافتی را وارد کنید', 'success')
+            messages.success(request, 'اطلاعات شما با موفقیت ثبت شد. کد دریافتی را وارد کنید', 'success')
             return redirect('accounts:verify')
         else:
             messages.error(request, "اطلاعات وارد شده معتبر نمی باشد", 'danger')
             return render(request, self.template_name, {"form": form})
-        
+
 
 class VerifyUserView(View):
     template_name = 'accounts_app/verify_user.html'
+
     def get(self, request):
         form = VerifyRegisterForm()
         return render(request, self.template_name, {'form': form})
-    
+
     def post(self, request):
         form = VerifyRegisterForm(request.POST)
         if form.is_valid():
@@ -76,7 +77,7 @@ class VerifyUserView(View):
 
 class LoginUserView(View):
     template_name = 'accounts_app/login.html'
-    
+
     def get(self, request):
         form = LoginUserForm()
         return render(request, self.template_name, {'form': form})
@@ -98,9 +99,9 @@ class LoginUserView(View):
             return render(request, self.template_name, {'form': form})
 
 
-
 class RememberPasswordView(View):
     template_name = 'accounts_app/partials/remember_password.html'
+
     def get(self, request):
         form = RememberPasswordForm()
         return render(request, self.template_name, {'form': form})
@@ -109,9 +110,9 @@ class RememberPasswordView(View):
         form = RememberPasswordForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user=CustomUser.objects.get(mobile_number=data['mobile_number'])
-            active_code=utils.create_active_code(5)
-            user.active_code=active_code
+            user = CustomUser.objects.get(mobile_number=data['mobile_number'])
+            active_code = utils.create_active_code(5)
+            user.active_code = active_code
             user.save()
             utils.send_sms(data['mobile_number'], f'کد تایید حساب کاربری شما {active_code} می باشد')
             request.session['user_session'] = {
@@ -123,37 +124,38 @@ class RememberPasswordView(View):
             return redirect('accounts:verify')
         messages.error(request, 'شماره موبایل وارد شده موجود نمی باشد', 'danger')
         return render(request, self.template_name, {'form': form})
-            
+
 
 class ChangePasswordView(View):
     template_name = 'accounts_app/partials/change_password.html'
+
     def get(self, request, *args, **kwargs):
         form = ChangePasswordForm()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = ChangePasswordForm(request.POST) 
+        form = ChangePasswordForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user_session=request.session['user_session']
-            user=CustomUser.objects.get(mobile_number=user_session['mobile_number'])
+            user_session = request.session['user_session']
+            user = CustomUser.objects.get(mobile_number=user_session['mobile_number'])
             user.set_password(data['password1'])
-            user.active_code=utils.create_active_code(5)
+            user.active_code = utils.create_active_code(5)
             user.save()
             messages.success(request, 'رمز عبور شما با موفقعیت تغییر کرد', 'success')
             return redirect('accounts:login')
         else:
             messages.error(request, 'اطلاعات وارد شده معتبر نمی باشد', 'danger')
-        
+
         return render(request, self.template_name, {'form': form})
 
-    
+
 class LogoutUserView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
-        messages.success(request,'خروج شما با موفقعیت انجام شد', 'success')
+        messages.success(request, 'خروج شما با موفقعیت انجام شد', 'success')
         return redirect('main:index')
-    
+
 
 class UserPanelView(View):
     template_name = 'accounts_app/userpanel.html'
@@ -164,17 +166,19 @@ class UserPanelView(View):
             return redirect('accounts:login')
         dentist = CustomUser.objects.get(pk=request.user.id)
         return render(request, self.template_name, {'dentist': dentist})
-    
-         
+
+
 class Patients(View):
     template_name = 'accounts_app/partials/patients.html'
-    
+
     def get(self, request):
         patients = Patient.objects.filter(is_active=True, dentist=request.user.id)
         return render(request, self.template_name, {'patients': patients})
 
+
 class TablePatientsView(View):
     template_name = 'accounts_app/partials/table_patients.html'
+
     def get(self, request):
         patients = Patient.objects.filter(is_active=True, dentist=request.user.id)
         return render(request, self.template_name, {'patients': patients})
@@ -182,55 +186,60 @@ class TablePatientsView(View):
 
 class EditProfileView(View):
     template_name = 'accounts_app/partials/edit_profile.html'
+
     def get(self, request):
         user = request.user
         data = {
-            'mobile_number' : user.mobile_number,
-            'name' : user.name,
-            'family' : user.family,
-            'specialty' : user.specialty,
+            'mobile_number': user.mobile_number,
+            'name': user.name,
+            'family': user.family,
+            'specialty': user.specialty,
         }
-        
+
         form = EditeProfileForm(initial=data)
         return render(request, self.template_name, {'form': form})
-    
+
     def post(self, request):
         form = EditeProfileForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
             user = request.user
-            user.mobile_number=data['mobile_number']
-            user.name=data['name']
-            user.family=data['family']
-            user.email=data['email']
-            user.specialty=data['specialty']
+            user.mobile_number = data['mobile_number']
+            user.name = data['name']
+            user.family = data['family']
+            user.email = data['email']
+            user.specialty = data['specialty']
             user.save()
             messages.success(request, 'ویرایش پروفایل با موفقیت انجام شد', 'success')
             return redirect('accounts:user_panel')
         messages.error(request, 'اطلاعات وارد شده نامعتبراند', 'danger')
         return render(request, self.template_name, {'form': form})
 
-        
+
 class CreatePatient(View):
     template_name = 'accounts_app/partials/add_patient.html'
+
     def get(self, request):
         form = PatientForm()
-        return render(request, self.template_name, {'form': form})
-    
+        context = {
+            'form': form,
+            'diseases': Disease.objects.filter(is_active=True)
+        }
+        return render(request, self.template_name, context)
+
     def post(self, request):
         form = PatientForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            diseases_ids = list(data['diseases'])
-            print(diseases_ids)
+            diseases_ids = request.POST.getlist('diseases_id', [])
             patient = Patient.objects.create(
-                name =  data['name'],
-                family = data['family'],
-                phone_number = data['phone_number'],
-                dentist = request.user,
-                patient_national_id = data['patient_national_id'],
-                is_active = data['is_active'],
-                )
+                name=data['name'],
+                family=data['family'],
+                phone_number=data['phone_number'],
+                dentist=request.user,
+                patient_national_id=data['patient_national_id'],
+                is_active=data['is_active'],
+            )
             visit = Visit.objects.create(
                 patient=patient
             )
@@ -244,7 +253,7 @@ class CreatePatient(View):
         messages.error(request, 'اطلاعات وارد شده نامعتبراند', 'danger')
         return render(request, self.template_name, {'form': form})
 
-        
+
 class UpdatePatient(View):
     template_name = 'accounts_app/partials/edit_patient.html'
 
@@ -266,25 +275,27 @@ class UpdatePatient(View):
         }
 
         form = PatientForm(initial=data)
-        return render(request, self.template_name, {'form': form, 'all_diseases': all_diseases})
+
+        context = {'form': form, 'all_diseases': all_diseases,
+                   'disease_selected_ids': list(patient.get_diseases().values_list('id', flat=True))}
+
+        return render(request, self.template_name, context)
 
     def post(self, request, id):
         patient = get_object_or_404(Patient, pk=id)
         form = PatientForm(request.POST)
         all_diseases = self.get_all_diseases()
-        
+
         if form.is_valid():
             data = form.cleaned_data
-            data = form.cleaned_data
-            diseases_ids = list(data['diseases'])
-            print(diseases_ids)
+            diseases_ids = request.POST.getlist('diseases_id', [])
             patient.name = data['name']
             patient.family = data['family']
             patient.phone_number = data['phone_number']
             patient.patient_national_id = data['patient_national_id']
             patient.is_active = data['is_active']
             patient.diseases.clear()
-            patient.diseases.add(*data['diseases'])  # Use unpacking to add multiple diseases
+            patient.diseases.add(*diseases_ids)  # Use unpacking to add multiple diseases
             patient.save()
             visit = Visit.objects.create(
                 patient=patient
@@ -292,16 +303,17 @@ class UpdatePatient(View):
             visit.save()
             messages.success(request, 'اطلاعات بیمار با موفقیت ویرایش شد', 'success')
             return redirect('accounts:patients')
-        
+
         messages.error(request, 'اطلاعات وارد شده نامعتبر می باشند')
         return render(request, self.template_name, {'form': form, 'all_diseases': all_diseases})
 
-               
+
 class ContactUsView(View):
     template_name = 'accounts_app/contact_us.html'
+
     def get(self, request):
         form = ContactUsForm()
-        return render(request, self.template_name, {'form':form})
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = ContactUsForm(request.POST)
@@ -315,6 +327,5 @@ class ContactUsView(View):
             subject=data['subject'],
             text=data['text'],
         )
-        messages.success(request, 'پیام شما با موفقیت ارسال شد', 'success')    
+        messages.success(request, 'پیام شما با موفقیت ارسال شد', 'success')
         return redirect('main:index')
-    

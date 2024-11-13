@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from jalali_date import datetime2jalali, date2jalali
+
+
 # Create your models here.
 
 class Disease(models.Model):
@@ -13,8 +15,7 @@ class Disease(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     class Meta:
         verbose_name = 'بیماری'
         verbose_name_plural = 'بیماری ها'
-        
