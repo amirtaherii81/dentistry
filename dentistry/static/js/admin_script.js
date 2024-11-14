@@ -5,20 +5,31 @@ $(document).ready(function () {
         var dd1 = $(this).attr('id');
         var dd2 = dd1.replace("-feature", "-filter_value");
 
+        // Validate and encode f_id before using it in the URL
+        if (!/^\d+$/.test(f_id)) {
+            console.error("Invalid feature ID");
+            return; // Exit if f_id is not a valid number
+        }
+
         $.ajax({
             type: 'GET',
-            url: "/products/ajax_admin/?feature_id=" + f_id,
+            url: "/products/ajax_admin/?feature_id=" + encodeURIComponent(f_id),
             success: function (res) {
-                cols = document.getElementById(dd2);
+                var cols = document.getElementById(dd2);
                 cols.options.length = 0;
+
+                // Sanitize and validate response data before inserting it into the DOM
                 for (var k in res) {
-                    cols.options.add(new Option(k, res[k]));
+                    if (res.hasOwnProperty(k)) {
+                        var optionText = $('<div>').text(k).html(); // Sanitize the option text
+                        var optionValue = $('<div>').text(res[k]).html(); // Sanitize the option value
+                        cols.options.add(new Option(optionText, optionValue));
+                    }
                 }
             }
         });
     });
 });
-
 
 $(document).ready(function () {
     $('#id_product_name').on('input', function () {
@@ -26,6 +37,7 @@ $(document).ready(function () {
         const slug = createSlug(productName);
         $('#id_slug').val(slug);
     });
+
     function createSlug(text) {
         return text
             .toLowerCase()                      // Convert to lowercase

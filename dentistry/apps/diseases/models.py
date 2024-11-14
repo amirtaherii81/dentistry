@@ -18,7 +18,7 @@ class Disease(models.Model):
     is_priority = models.BooleanField(default=False, verbose_name='اولویت بودن / نبودن')
     is_active = models.BooleanField(default=True, verbose_name='فعال بودن / نبودن')
     publication_date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ انتشار')
-    slug = models.SlugField(null=False)
+    # slug = models.SlugField(null=False)
     
     def get_shamsi_date(self):
         return datetime2jalali(self.publication_date).strftime('%H:%M:%S _ %y/%m/%d')
@@ -32,10 +32,5 @@ class Disease(models.Model):
         verbose_name_plural = 'بیماری ها'
         
 
-    
-# =======
 
-    class Meta:
-        verbose_name = 'بیماری'
-        verbose_name_plural = 'بیماری ها'
 # >>>>>>> 8fa691a79f39a50af71c2b8b87149163ec7b0751

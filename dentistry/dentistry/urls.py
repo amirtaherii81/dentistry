@@ -27,3 +27,6 @@ urlpatterns = [
     path('blog/', include('apps.diseases.urls', namespace='diseases')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = 'پنل مدیریت'
+admin.site.index_title = 'به پنل خوش آمدید'
