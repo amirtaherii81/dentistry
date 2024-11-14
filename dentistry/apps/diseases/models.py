@@ -1,7 +1,12 @@
 from django.db import models
 from django.utils import timezone
 from jalali_date import datetime2jalali, date2jalali
+# <<<<<<< HEAD
 from ckeditor_uploader.fields import RichTextUploadingField
+# =======
+
+
+# >>>>>>> 8fa691a79f39a50af71c2b8b87149163ec7b0751
 # Create your models here.
 
 class Disease(models.Model):
@@ -20,6 +25,7 @@ class Disease(models.Model):
 
     def __str__(self):
         return self.title
+# <<<<<<< HEAD
         
     class Meta:
         verbose_name = 'بیماری'
@@ -27,3 +33,9 @@ class Disease(models.Model):
         
 
     
+# =======
+
+    class Meta:
+        verbose_name = 'بیماری'
+        verbose_name_plural = 'بیماری ها'
+# >>>>>>> 8fa691a79f39a50af71c2b8b87149163ec7b0751
