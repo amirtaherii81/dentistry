@@ -7,90 +7,25 @@
 {% endblock %}
 
 {% block content %}
-
-    <div>
-      <div style="padding: 10px; margin: 10px;">
-        <form class="form-inline" action="{% url 'search:patient' %}">
-          <div class="input-group">
-            <input type="search" class="form-control input-small" placeholder="جستجو..." aria-label="Search" name="q_patient" id="q_patient" />
-            <div class="input-group-append">
-              <button class="btn btn-outline-success" type="submit" onclick="searchPatient()">جستجو</button>
-            </div>
+  <div>
+    <div style="padding: 10px; margin: 10px;">
+      <form class="form-inline" action="{% url 'search:patient' %}">
+        <div class="input-group">
+          <input type="search" class="form-control input-small" placeholder="جستجو..." aria-label="Search" name="q_patient" id="q_patient" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-success" type="submit" onclick="searchPatient()">جستجو</button>
           </div>
-        </form>
+        </div>
+      </form>
 
-        <div></div>
+    {% if patients %}
+        {% include "accounts_app/partials/table_patients.html" %}
+        
+    {% else %}
         <table class="table table-bordered">
-          <thead>
             <tr>
-              <th>نام</th>
-              <th>نام خانوادگی</th>
-              <th>شماره موبایل</th>
-              <th>بیماری ها</th>
-              <th>کد ملی</th>
-              <th>تاریخ مراجعه</th>
-              <th></th>
+                <td colspan="7" class="text-center">بیماری یافت نشد</td>
             </tr>
-          </thead>
-          <tbody id="patient_table">
-            {% if patients %}
-              {% for patient in patients %}
-                <tr>
-                  <td>{{ patient.name }}</td>
-                  <td>{{ patient.family }}</td>
-                  <td>{{ patient.phone_number }}</td>
-                  <td>
-                    {% for disease in patient.diseases.all %}
-                      <span>{{ disease }}</span>,
-                    {% endfor %}
-                    {% if patient.diseases.all %}
-                      <a href="{% url 'diseases:part_blog' id=patient.id %}"><span style="font-size: 14px">توضیحات</span></a>
-                    {% endif %}
-                  </td>
-                  <td>{{ patient.patient_national_id }}</td>
-
-                  <td>
-                    {% for visit in patient.visits.all %}
-                      {{ visit.get_shamsi_date_visit }}
-                      <br />
-                    {% endfor %}
-                  </td>
-                  <td>
-                    <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
-                  </td>
-                </tr>
-              {% endfor %}
-            {% else %}
-              <tr>
-                <td>{{ patient.name }}</td>
-                <td>{{ patient.family }}</td>
-                <td>{{ patient.phone_number }}</td>
-                <td>
-                  {% for disease in patient.diseases.all %}
-                    <span>{{ disease }}</span>,<br />
-                  {% endfor %}
-                  {% if patient.diseases.all %}
-                    <a href="{% url 'diseases:part_blog' id=patient.id %}"><span style="font-size: 14px">توضیحات</span></a>
-                  {% endif %}
-                </td>
-                <td>{{ patient.patient_national_id }}</td>
-
-                <td>
-                  {% for visit in patient.visits.all %}
-                    {{ visit.get_shamsi_date_visit }}
-                    <br />
-                  {% endfor %}
-                </td>
-                <td>
-                  <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
-                </td>
-              </tr>
-            {% endif %}
-          </tbody>
         </table>
-      </div>
-    </div>
-  {% comment %} {% else %}
-    <div>بیماری وجود ندارد</div>
-  {% endif %} {% endcomment %}
+    {% endif %}
 {% endblock %}

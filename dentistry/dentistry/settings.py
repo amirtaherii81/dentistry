@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'apps.polls.apps.PollsConfig',
     # external app,
     'jalali_date',
-    'django_render_partial',    
+    'django_render_partial',  
+    'ckeditor',
+    'ckeditor_uploader',  
 ]
 
 MIDDLEWARE = [
@@ -166,4 +168,34 @@ JALALI_DATE_DEFAULTS = {
             ]
         }
     },
+}
+
+CKEDITOR_UPLOAD_PATH = "images/ckeditor/upload_files/"
+CKEDITOR_STORAGE_BACKEND = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_CONFIGS = {
+    'default': 
+        {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+                ['Bold', 'link', 'Unlink', 'Image'],
+            ],
+        },
+    'special': 
+        {
+            'toolbar': 'Special', 'height': 500,
+            'toolbar': 'full',
+            'toolbar_Special':
+                [
+                    ['Bold', 'Link', 'Unlink', 'Image'],
+                    ['CodeSnippet'], # here
+                ],  'extraplugins': ','.join(['codesnippet', 'clipboard', ]) # here
+        },
+    'special_an':
+        {'toolbar': 'Special', 'height':500,
+         'toolbar_Special':
+            [
+                ['Bold'],
+                ['CodeSnippet'],
+            ], 'extraplugins': ','.join(['codesnippet', ])  # here
+        }
 }

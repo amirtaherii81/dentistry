@@ -1,57 +1,42 @@
 
-{% comment %} {% if patients %}
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>نام</th>
+        <th>نام خانوادگی</th>
+        <th>شماره موبایل</th>
+        <th>بیماری ها</th>
+        <th>کد ملی</th>
+        <th>تاریخ مراجعه</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="patient_table">
     {% for patient in patients %}
-    <tr>
+        <tr>
         <td>{{ patient.name }}</td>
         <td>{{ patient.family }}</td>
         <td>{{ patient.phone_number }}</td>
         <td>
-            {% for disease in patient.diseases.all %}
-                <span>{{ disease }}</span>, 
-            {% endfor %}
             {% if patient.diseases.all %}
-                <a href="{% url 'diseases:part_blog' id=patient.id %}" ><span style="font-size: 14px">توضیحات</span></a>
+            {% for disease in patient.diseases.all %}
+                <span>{{ disease }}</span>{% if not forloop.last %},<br />{% endif %}
+            {% endfor %}
+            <a class="text-info" href="{% url 'diseases:part_blog' id=patient.id %}"><span style="font-size: 14px">توضیحات</span></a>
+            {% else %}
+            <span class="text-danger">بدون بیماری</span>
             {% endif %}
         </td>
         <td>{{ patient.patient_national_id }}</td>
 
         <td>
             {% for visit in patient.visits.all %}
-                {{ visit.get_shamsi_date_visit }}
-                <br>
+            {{ visit.get_shamsi_date_visit }}<br />
             {% endfor %}
-
         </td>
         <td>
             <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
         </td>
-    </tr>
-{% endfor %}
-{% else %}
-    <tr>
-        <td>{{ patient.name }}</td>
-        <td>{{ patient.family }}</td>
-        <td>{{ patient.phone_number }}</td>
-        <td>
-            {% for disease in patient.diseases.all %}
-                <span>{{ disease }}</span>,<br> 
-            {% endfor %}
-            {% if patient.diseases.all %}
-                
-                <a href="{% url 'diseases:part_blog' id=patient.id %}" ><span style="font-size: 14px">توضیحات</span></a>
-            {% endif %}
-        </td>
-        <td>{{ patient.patient_national_id }}</td>
-
-        <td>
-            {% for visit in patient.visits.all %}
-                {{ visit.get_shamsi_date_visit }}
-                <br>
-            {% endfor %}
-
-        </td>
-        <td>
-            <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
-        </td>
-    </tr>
-{% endif %} {% endcomment %}
+        </tr>
+    {% endfor %}
+</table>
