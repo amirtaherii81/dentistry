@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'apps.accounts.apps.AccountsConfig',
     'apps.diseases.apps.DiseasesConfig',
     'apps.search.apps.SearchConfig',
-    'apps.polls.apps.PollsConfig',
     # external app,
     'jalali_date',
     'django_render_partial',  
@@ -183,7 +182,7 @@ CKEDITOR_CONFIGS = {
         {
         'toolbar': 'Custom',
         'toolbar_Custom': [
-                ['Bold', 'link', 'Unlink', 'Image'],
+                ['Bold', 'link', 'Unlink',],
             ],
         },
     'special': 
@@ -192,7 +191,7 @@ CKEDITOR_CONFIGS = {
             'toolbar': 'full',
             'toolbar_Special':
                 [
-                    ['Bold', 'Link', 'Unlink', 'Image'],
+                    ['Bold', 'Link', 'Unlink',],
                     ['CodeSnippet'], # here
                 ],  'extraplugins': ','.join(['codesnippet', 'clipboard', ]) # here
         },
