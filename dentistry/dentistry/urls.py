@@ -30,3 +30,5 @@ urlpatterns = [
 
 admin.site.site_header = 'پنل مدیریت'
 admin.site.index_title = 'به پنل خوش آمدید'
+
+handler404 = 'apps.main.views.handler404'
