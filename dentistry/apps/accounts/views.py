@@ -44,7 +44,6 @@ class RegisterUserView(View):
         messages.success(request, 'اطلاعات شما با موفقیت ثبت شد. کد دریافتی را وارد کنید', 'success')
         return redirect('accounts:verify')
 
-
 class VerifyUserView(View):
     template_name = 'accounts_app/verify_user.html'
 
@@ -72,9 +71,6 @@ class VerifyUserView(View):
         else:
             return redirect('accounts:change_password')
 
-
-
-
 class LoginUserView(View):
     template_name = 'accounts_app/login.html'
 
@@ -97,11 +93,6 @@ class LoginUserView(View):
         messages.success(request, 'ورود با موفقیت انجام شد', 'success')
         return redirect('accounts:user_panel')
         
-
-
-
-
-
 class RememberPasswordView(View):
     template_name = 'accounts_app/partials/remember_password.html'
 
@@ -129,8 +120,6 @@ class RememberPasswordView(View):
         messages.success(request, 'جهت تغییر رمز عبور خود کد تایید را ارسال کنید', 'success')
         return redirect('accounts:verify')
 
-
-
 class ChangePasswordView(View):
     template_name = 'accounts_app/partials/change_password.html'
 
@@ -152,9 +141,6 @@ class ChangePasswordView(View):
         user.save()
         messages.success(request, 'رمز عبور شما با موفقعیت تغییر کرد', 'success')
         return redirect('accounts:login')
-
-
-
 
 class LogoutUserView(View):
     def get(self, request, *args, **kwargs):
@@ -224,8 +210,6 @@ class EditProfileView(View):
         messages.success(request, 'ویرایش پروفایل با موفقیت انجام شد', 'success')
         return redirect('accounts:user_panel')
 
-
-
 class CreatePatient(View):
     template_name = 'accounts_app/partials/add_patient.html'
 
@@ -262,9 +246,6 @@ class CreatePatient(View):
         patient.save()
         messages.success(request, 'اطلاعات بیمار با موفقیت ثبت شد', 'success')
         return redirect('accounts:add_patients')
-
-
-
 
 class UpdatePatient(View):
     template_name = 'accounts_app/partials/edit_patient.html'
@@ -317,8 +298,6 @@ class UpdatePatient(View):
         visit.save()
         messages.success(request, 'اطلاعات بیمار با موفقیت ویرایش شد', 'success')
         return redirect('accounts:patients')
-
-
 
 class ContactUsView(View):
     template_name = 'accounts_app/contact_us.html'

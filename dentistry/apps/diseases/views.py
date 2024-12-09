@@ -31,15 +31,12 @@ class BlogView(View):
             }
         
         return render(request, 'diseases_app/blag.html', context)
-
-
-
+    
 def part_blog(request, id):
     patient = Patient.objects.get(pk=id)
     diseases_patient = patient.diseases.all()
     return render(request, 'diseases_app/part_blog.html', {'diseases_patient':diseases_patient})
-    
-    
+      
 class DetailBlogView(View):
     template_name = 'diseases_app/detail_blog.html'
     def get(self, request, id):
