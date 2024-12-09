@@ -10,8 +10,9 @@ class CustomUserAdmin(UserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     
-    list_display = ('mobile_number', 'email', 'name', 'family', 'gender', 'is_active', 'is_admin')
+    list_display = ('mobile_number', 'email', 'name', 'family', 'is_active', 'is_admin')
     list_filter = ('is_active', 'is_admin', 'family')
+    list_editable = ('is_active', 'is_admin')
     
     fieldsets = (       # UserChangeForm مربوط به 
         (None, {

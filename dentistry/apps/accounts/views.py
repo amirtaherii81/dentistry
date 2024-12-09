@@ -201,6 +201,7 @@ class EditProfileView(View):
             'name': user.name,
             'family': user.family,
             'specialty': user.specialty,
+            'email': user.email,
         }
 
         form = EditeProfileForm(initial=data)
@@ -281,7 +282,6 @@ class UpdatePatient(View):
             'dentist': patient.dentist,
             'diseases': list(patient.diseases.all()),
             'patient_national_id': patient.patient_national_id,
-            'medical_history': patient.medical_history,
             'is_active': patient.is_active,
         }
 

@@ -43,13 +43,15 @@ def search_disease(request):
 #     return render(request,  'accounts_app/partials/table_patients.html', {'patient': patient})
 
 def search_patient(request):
+    user = request.user.id
     value = request.GET.get('q_patient', '').strip()
     if not value:
         return redirect('accounts:patients')
     
     try:
         patient = Patient.objects.filter(
-            Q(is_active=True) & (
+            Q(is_active=True) & 
+            Q(dentist=user) & (
                 Q(name__icontains=value) | 
                 Q(family__icontains=value) | 
                 Q(phone_number__icontains=value) | 

@@ -3,6 +3,7 @@ from .models import Disease
 from django.views import View
 from apps.accounts.models import Patient
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
 # Create your views here.
 
 class BlogView(View):
@@ -44,3 +45,8 @@ class DetailBlogView(View):
     def get(self, request, id):
         disease = Disease.objects.get(is_active=True, pk=id)
         return render(request, self.template_name, {'disease':disease})
+    
+# class ResualtDescriptionView(View):
+#     def get(self, request):
+#         id_disease = request.GET.get('id_disease')
+#         return HttpResponse(id_disease)

@@ -47,6 +47,24 @@ function searchDisease() {
     });  
 } 
 
+// function getData() {
+//     const id_disease = $("#id_diseases").value(); // Declare variable properly
+//     $.ajax({
+//         url: '/diseases/res_description/',
+//         type: 'GET',
+//         data: {
+//             id_disease: id_disease,
+//         },
+//         success: function(response) {
+//             console.log('Data received:', response);
+//             $('#res_description').html(response); // Use .html() to set the content correctly
+//         },
+//         error: function(xhr, status, error) {
+//             console.error('AJAX Error:', status, error);
+//             alert('An error occurred while fetching data. Please try again.'); // User feedback on error
+//         }
+//     });
+// }
 
 
 // function searchPatient() {  

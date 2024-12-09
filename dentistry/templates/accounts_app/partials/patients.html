@@ -1,5 +1,5 @@
 {% extends 'user_panel_base.html' %}
-{% load poll_extras %}
+{% comment %} {% load poll_extras %} {% endcomment %}
 {% load render_partial %}
 
 {% block title %}
@@ -9,14 +9,24 @@
 {% block content %}
   <div>
     <div style="padding: 10px; margin: 10px;">
-      <form class="form-inline" action="{% url 'search:patient' %}">
+      {% comment %} <form class="form-inline" action="{% url 'search:patient' %}">
         <div class="input-group">
           <input type="search" class="form-control input-small" placeholder="جستجو..." aria-label="Search" name="q_patient" id="q_patient" />
           <div class="input-group-append">
             <button class="btn btn-outline-success" type="submit" onclick="searchPatient()">جستجو</button>
           </div>
         </div>
-      </form>
+      </form> {% endcomment %}
+      <div class="block-sidebar__item d-flex" style="margin-bottom: 10px;">
+        <div class="widget-search">
+          <form class="widget-search__body" action="{% url 'search:patient' %}">
+            <input class="widget-search__input" placeholder="جستجوی بیمار ..." type="text" id="q_patient" autocomplete="off" spellcheck="false" name="q_patient">
+            <button class="widget-search__button" type="submit" onclick="searchPatient()">
+              <i class="fa fa-search"></i>
+            </button>
+          </form>
+        </div>
+      </div>
 
     {% if patients %}
         {% include "accounts_app/partials/table_patients.html" %}

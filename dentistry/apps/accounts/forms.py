@@ -96,7 +96,8 @@ class EditeProfileForm(forms.Form):
     specialty = forms.CharField(label='تخصص',
                                 widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'تخصص را وارد کنید'})
                                 )
-    
+
+        
 # نمایش و اضافه کردن بیماران
 class PatientForm(forms.ModelForm):
     diseases = forms.ModelMultipleChoiceField(

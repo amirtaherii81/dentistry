@@ -4,7 +4,7 @@ from .models import Disease
 
 @admin.register(Disease)
 class DiseaseAdmin(admin.ModelAdmin):
-    list_display = ['title', 'summary_description', 'is_priority','is_active','get_shamsi_date']
+    list_display = ['title', 'is_priority','is_active','get_shamsi_date']
     list_filter = ['title', 'is_priority', 'is_active']
     search_fields = ('title',)
     ordering = ('publication_date',)

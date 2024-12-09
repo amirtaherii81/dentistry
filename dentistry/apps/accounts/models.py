@@ -80,7 +80,6 @@ class Patient(models.Model):
     dentist = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='self_dentist', verbose_name='دندانپزشک مریض')
     diseases = models.ManyToManyField(Disease, related_name='patients', verbose_name='بیماری ها')  # نوع بیماری  
     patient_national_id = models.CharField(max_length=10, null=True, blank=True, verbose_name='کد ملی')
-    medical_history = models.TextField(blank=True, null=True, verbose_name='سوابق بیماری')  # سوابق بیماری  
     is_active = models.BooleanField(default=True, verbose_name='فعال')
 
     def __str__(self):
@@ -98,7 +97,7 @@ class Visit(models.Model):
     visit_date = models.DateTimeField(auto_now=True, verbose_name='تاریخ مراجعه')
 
     def get_shamsi_date_visit(self):
-        return datetime2jalali(self.visit_date).strftime('%H:%M:%S _ %y/%m/%d')
+        return f"{datetime2jalali(self.visit_date).strftime('%H:%M:%S__%y/%m/%d')}"
     
     def __str__(self):
         return self.visit_date
