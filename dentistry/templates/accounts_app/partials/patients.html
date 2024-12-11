@@ -9,14 +9,7 @@
 {% block content %}
   <div>
     <div style="padding: 10px; margin: 10px;">
-      {% comment %} <form class="form-inline" action="{% url 'search:patient' %}">
-        <div class="input-group">
-          <input type="search" class="form-control input-small" placeholder="جستجو..." aria-label="Search" name="q_patient" id="q_patient" />
-          <div class="input-group-append">
-            <button class="btn btn-outline-success" type="submit" onclick="searchPatient()">جستجو</button>
-          </div>
-        </div>
-      </form> {% endcomment %}
+
       <div class="block-sidebar__item d-flex" style="margin-bottom: 10px;">
         <div class="widget-search">
           <form class="widget-search__body" action="{% url 'search:patient' %}">
@@ -28,14 +21,12 @@
         </div>
       </div>
 
-    {% if patients %}
-        {% include "accounts_app/partials/table_patients.html" %}
+
+      
+      <div id="table_patient">
+        {% render_partial "accounts:table_patients" %}
+      </div>
         
-    {% else %}
-        <table class="table table-bordered">
-            <tr>
-                <td colspan="7" class="text-center">بیماری یافت نشد</td>
-            </tr>
-        </table>
-    {% endif %}
+
+  </div>
 {% endblock %}

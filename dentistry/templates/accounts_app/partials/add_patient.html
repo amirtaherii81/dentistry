@@ -45,9 +45,11 @@
                     {% endfor %}
                 </select>
             </div>
-            <div id="res_description" hidden></div> 
-
-            <button type="submit" class="btn btn-primary mt-4">ذخیره</button>
+            {% comment %} <span>برای توضیحات بیماری های انتخاب شده <a class="text-info" type="button" onclick="getSelectedDiseases()">کلیک</a> کنید</span> {% endcomment %}
+            <a class="text-info" type="button" onclick="getSelectedDiseases()">توضیحات بیماری های انتخاب شده</a>
+            {% comment %} <h3 id="result"></h3>  {% endcomment %}
+            <br>
+            <button onclick="getSelectedDiseases()" type="submit" class="btn btn-primary mt-4">ذخیره</button>
         </form>
     </table>
 

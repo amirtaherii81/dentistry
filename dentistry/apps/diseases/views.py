@@ -3,7 +3,8 @@ from .models import Disease
 from django.views import View
 from apps.accounts.models import Patient
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+
 # Create your views here.
 
 class BlogView(View):
@@ -43,7 +44,8 @@ class DetailBlogView(View):
         disease = Disease.objects.get(is_active=True, pk=id)
         return render(request, self.template_name, {'disease':disease})
     
-# class ResualtDescriptionView(View):
-#     def get(self, request):
-#         id_disease = request.GET.get('id_disease')
-#         return HttpResponse(id_disease)
+class ResultDescriptionView(View):  # بررسی نام کلاس  
+    def get(self, request):  
+        selected_values = request.GET.get('selected_values')  # دریافت مقادیر  
+        print(selected_values)
+        return JsonResponse({'selected_values': selected_values})  # بازگشت به صورت JSON 

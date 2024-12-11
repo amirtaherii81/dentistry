@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from apps.diseases.models import Disease
 import utils
+from django.http import HttpResponse
 
 
 class RegisterUserView(View):
@@ -321,3 +322,10 @@ class ContactUsView(View):
         )
         messages.success(request, 'پیام شما با موفقیت ارسال شد', 'success')
         return redirect('main:index')
+
+class DeletePatientView(View):
+    def get(self, request):
+        patient_id = request.GET.get('patient_id')
+        Patient.objects.get(id=patient_id).delete()
+        return redirect('accounts:table_patients')
+

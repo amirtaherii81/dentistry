@@ -1,4 +1,5 @@
 
+{% if patients %}
 <table class="table table-bordered">
     <thead>
     <tr class="text-center">
@@ -8,10 +9,10 @@
         <th>کد ملی</th>
         <th>تاریخ مراجعه</th>
         <th>بیماری ها</th>
-        {% comment %} <th></th> {% endcomment %}
+        <th></th>
     </tr>
     </thead>
-    <tbody id="patient_table">
+    <tbody>
     {% for patient in patients %}
         <tr>
         <td><a class="text-info" href="{% url 'accounts:edit_patient' id=patient.id %}">{{ patient.name }}</a></td>
@@ -38,9 +39,21 @@
         </td>
 
 
+        <td>
+            <a onclick="deletePatient({{patient.id}})" class="btn btn-info"><i class="fa fa-trash"></i></a>
+        </td> 
+
         {% comment %} <td>
             <a href="{% url 'accounts:edit_patient' id=patient.id %}" class="btn btn-info">ویرایش</a>
         </td> {% endcomment %}
         </tr>
     {% endfor %}
+
 </table>
+{% else %}
+<table class="table table-bordered">
+    <tr>
+        <td colspan="7" class="text-center">بیماری یافت نشد</td>
+    </tr>
+</table>
+{% endif %}

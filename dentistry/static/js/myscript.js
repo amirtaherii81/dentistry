@@ -47,25 +47,40 @@ function searchDisease() {
     });  
 } 
 
-// function getData() {
-//     const id_disease = $("#id_diseases").value(); // Declare variable properly
-//     $.ajax({
-//         url: '/diseases/res_description/',
-//         type: 'GET',
-//         data: {
-//             id_disease: id_disease,
-//         },
-//         success: function(response) {
-//             console.log('Data received:', response);
-//             $('#res_description').html(response); // Use .html() to set the content correctly
-//         },
-//         error: function(xhr, status, error) {
-//             console.error('AJAX Error:', status, error);
-//             alert('An error occurred while fetching data. Please try again.'); // User feedback on error
-//         }
-//     });
-// }
+function getSelectedDiseases() {  
+    const selectElement = document.getElementById("q_disease"); // دسترسی به المان select  
+    const selectedOptions = Array.from(selectElement.selectedOptions); // دریافت گزینه‌های انتخاب شده  
+    const selectedValues = selectedOptions.map(option => option.value); // استخراج مقادیر  
+    $.ajax({
+        url: '/diseases/selected/',
+        type: "GET",
+        data: {  
+            selected_values: JSON.stringify(selectedValues) // تبدیل آرایه به رشته جیسون  
+        },  
+        success: function(response) {  
+            console.log("پاسخ موفق:", response);  
+            // شما می‌توانید اینجا با پاسخ کار کنید  
+        },  
+        error: function(xhr, status, error) {  
+            console.error("خطا در درخواست:", status, error);  
+            // مدیریت خطا در اینجا  
+        } 
+    });
+}
 
+function deletePatient(patient_id) {
+    const answer = confirm("آیا می‌خواهید بیمار را حذف کنید؟");
+    if (answer) {
+        $.ajax({
+            url: "/accounts/delete_patient/",
+            type: "GET",
+            data: { patient_id: patient_id },
+            success: function(res) {
+                $("#table_patient").html(res);
+            }
+        });
+    }
+}
 
 // function searchPatient() {  
 //     var value =  $("#q_patient").val();

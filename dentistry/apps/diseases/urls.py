@@ -9,5 +9,5 @@ urlpatterns = [
 
     path('detail_blog/<int:id>/', views.DetailBlogView.as_view(), name='detail_blog'),
 
-    # path('res_description/', views.ResualtDescriptionView.as_view(), name='res_description'),
+    path('selected/', views.ResultDescriptionView.as_view(), name='selected'),
 ]
