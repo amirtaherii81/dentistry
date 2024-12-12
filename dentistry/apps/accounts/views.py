@@ -166,16 +166,20 @@ class Patients(View):
     template_name = 'accounts_app/partials/patients.html'
 
     def get(self, request):
-        patients = Patient.objects.filter(is_active=True, dentist=request.user.id)
-        return render(request, self.template_name, {'patients': patients})
+        # patients = Patient.objects.filter(is_active=True, dentist=request.user.id)
+        return render(request, self.template_name)
 
 
 class TablePatientsView(View):
     template_name = 'accounts_app/partials/table_patients.html'
 
     def get(self, request):
-        patients = Patient.objects.filter(is_active=True, dentist=request.user.id)
-        return render(request, self.template_name, {'patients': patients})
+        value = request.GET.get('q_patient')
+        if not value:
+            patients = Patient.objects.filter(is_active=True, dentist=request.user.id)
+            return render(request, self.template_name, {'patients': patients})
+            
+        return redirect('search:patient')
 
 
 class EditProfileView(View):

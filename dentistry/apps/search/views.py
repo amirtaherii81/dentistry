@@ -42,14 +42,16 @@ def search_disease(request):
 #                                 )
 #     return render(request,  'accounts_app/partials/table_patients.html', {'patient': patient})
 
+# def search_patient(request):
+
 def search_patient(request):
     user = request.user.id
     value = request.GET.get('q_patient', '').strip()
-    if not value:
-        return redirect('accounts:patients')
+    # if not value:
+    #     return redirect('accounts:patients')
     
     try:
-        patient = Patient.objects.filter(
+        patients = Patient.objects.filter(
             Q(is_active=True) & 
             Q(dentist=user) & (
                 Q(name__icontains=value) | 
@@ -59,10 +61,10 @@ def search_patient(request):
             )
         )
     except Patient.DoesNotExist:
-        return render(request, 'accounts_app/partials/patients.html', {'patients': None})  # Handle not found error gracefully
+        return render(request, 'accounts_app/partials/table_patients.html.html', {'patients': None})  # Handle not found error gracefully
 
     # Do not print sensitive patient information
-    return render(request, 'accounts_app/partials/patients.html', {'patients': patient})
+    return render(request, 'accounts_app/partials/search_result.html', {'patients': patients})
 
 
 class SearchBlogView(View):

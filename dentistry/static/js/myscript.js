@@ -82,11 +82,14 @@ function deletePatient(patient_id) {
     }
 }
 
-// function searchPatient() {  
-//     var value =  $("#q_patient").val();
-//     $.get('/search/patient/' , {
-//         value: value,
-//     }).then(res => {
-//         $("#patient_table").html(res);
-//     });
-// }
+function searchPatient() {
+    var value =  $("#q_patient").val();
+    $.ajax({
+        url: "/accounts/table_patients/",
+        type: "GET",
+        data: { value: value },
+        success: function(res) {
+            $("#search_result").html(res);
+        }
+    });
+}
